@@ -9,9 +9,6 @@ if(!isset($_SESSION['user_id'])) {
 <?php include '../backend/includes/header.php'; ?>
 <?php include '../backend/includes/sidebar.php'; ?>
 
-
-
-
 <div class="container mt-4">
   <h1>Dashboard</h1>
   <p>Bem-vindo ao painel de administração.</p>

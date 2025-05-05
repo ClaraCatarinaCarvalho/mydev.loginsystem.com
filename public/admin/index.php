@@ -1,11 +1,28 @@
 <?php
 
 session_start();
-var_dump ($_SESSION);
+//var_dump ($_SESSION);
+//
 if(!isset($_SESSION['user_id']) || $_SESSION['is_admin'] == FALSE) {
     header('Location: /login.php');
     exit;
 }
+
+include '../../backend/db.php';
+
+$sql = "SELECT count(id) as num_users FROM users";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$numUsers = $stmt->fetch(PDO::FETCH_ASSOC);
+
+var_dump($numUsers['num_users']);
+
+$sql = "SELECT count(id) as num_tokens FROM signup_tokens";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$numTokens = $stmt->fetch(PDO::FETCH_ASSOC);
+
+var_dump($numTokens['num_tokens']);
 
 ?>
 
@@ -55,7 +72,7 @@ if(!isset($_SESSION['user_id']) || $_SESSION['is_admin'] == FALSE) {
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/admin/index.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard +++</span></a>
             </li>
@@ -362,7 +379,7 @@ if(!isset($_SESSION['user_id']) || $_SESSION['is_admin'] == FALSE) {
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="/logout.php" >
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -394,8 +411,8 @@ if(!isset($_SESSION['user_id']) || $_SESSION['is_admin'] == FALSE) {
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                Numero de utilizadores</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo($numUsers['num_users']); ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -412,8 +429,8 @@ if(!isset($_SESSION['user_id']) || $_SESSION['is_admin'] == FALSE) {
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                Numero de tokens</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo($numTokens['num_tokens']); ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
